@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# vim
+*.swp
+
 # production
 /build
 
