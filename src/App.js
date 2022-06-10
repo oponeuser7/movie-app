@@ -1,20 +1,38 @@
 import './style.css';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    axios.get('//127.0.0.1:8080/movie/movie-server/search.jsp').
+    then((response) => {
+      const temp = response.data;
+      const arr = [];
+      for(const key in temp) arr.push(Object.values(temp[key]));
+      setList(arr);
+    });
+  }, []);
+
   return (
     <div id="app">
-      <input type="text" id="search-input" />
-      <button type="button" id="search-button">search!</button>
       <div id="results-container">
         <table id="results">
-          <tr>
-            <th>title</th>
-            <th>director</th>
-            <th>realse date</th>
-            <th>runtime</th>
-            <th>rating</th>
-            <th>genre</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>title</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              list.map((data, index) => (
+                <tr key={index}>
+                  <td>{data[0]}</td>
+                </tr>
+              ))
+            }
+          </tbody>
         </table>
       </div>
     </div>
