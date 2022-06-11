@@ -3,34 +3,44 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Movie = (props) => {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const baseUrl = '//127.0.0.1:8080/movie/movie-server/';
 
   useEffect(() => {
-    let url = '//127.0.0.1:8080/movie/movie-server/'; 
-    url = url + (props.order ? 'searchOrderB.jsp' : 'searchOrderR.jsp');
-    axios.get(url).
-    then((response) => {
-      const temp = response.data;
-      const arr = [];
-      for(const key in temp) arr.push(Object.values(temp[key]));
-      setList(arr);
-    });
-  });
+    const fetchMovies = async () => {
+      setList(null);
+      setLoading(true);
+      const url = baseUrl + (props.order ? 'searchOrderB.jsp' : 'searchOrderR.jsp');
+      const response = await axios.get(url);
+      let temp = [];
+      for(const key in response.data) temp.push(Object.values(response.data[key]));
+      setList(temp);
+      setLoading(false);
+      console.log(response.data);
+    }
 
+    fetchMovies();
+  }, [props.order]);
+
+  if(loading) return <div>Loading...</div>;
+  if(!list) return null;
   return (
       <div>
         <table>
           <thead>
             <tr>
-              <th>title</th>
+              <th>Title</th>
+              <th>{props.order ? 'Book' : 'Release date'}</th>
             </tr>
           </thead>
           <tbody>
             {
               list.map((data, index) => (
-                <tr key={index}>
-                  <td>{data[0]}</td>
-                </tr>
+              <tr key={index}>
+                <td>{data[1]}</td>
+                <td>{props.order ? data[7] : data[3]}</td>
+              </tr>
               ))
             }
           </tbody>
