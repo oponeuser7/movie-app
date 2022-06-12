@@ -1,21 +1,18 @@
 import './style.css';
-import { useState, useEffect} from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { API, objToList } from './api';
 
 const Movie = (props) => {
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
-  const baseUrl = '//127.0.0.1:8080/movie/movie-server/';
 
   useEffect(() => {
     const fetchMovies = async () => {
       setList(null);
       setLoading(true);
-      const url = baseUrl + (props.order ? 'searchOrderB.jsp' : 'searchOrderR.jsp');
-      const response = await axios.get(url);
-      let temp = [];
-      for(const key in response.data) temp.push(Object.values(response.data[key]));
-      setList(temp);
+      const url = (props.order ? 'searchOrderB.jsp' : 'searchOrderR.jsp');
+      const response = await API.get(url);
+      setList(objToList(response.data));
       setLoading(false);
     }
     fetchMovies();
