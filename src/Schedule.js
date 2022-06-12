@@ -42,7 +42,7 @@ const Schedule = (props) => {
               <tr key={index}>
                 <td style={{display:"none"}}>{data[0]}</td>
                 <td>{data[1]}</td>
-                <td class="button">{data[2]}</td>
+                <td className="button">{data[2]}</td>
               </tr>
               ))
             }

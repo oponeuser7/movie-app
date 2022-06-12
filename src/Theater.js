@@ -32,7 +32,7 @@ const Theater = (props) => {
               list.map((data, index) => (
               <tr key={index}>
                 <td style={{display:"none"}}>{data[0]}</td>
-                <td class="button" onClick={props.onClick}>{data[1]}</td>
+                <td className="button" onClick={props.onClick}>{data[1]}</td>
               </tr>
               ))
             }

@@ -40,7 +40,7 @@ const Movie = (props) => {
                   </a>
                 </td>
                 <td style={{display: "none"}}>{data[0]}</td>
-                <td class="button" onClick={props.onClick}>{data[1]}</td>
+                <td className="button" onClick={props.onClick}>{data[1]}</td>
                 <td>{props.order ? data[7] : data[3]}</td>
               </tr>
               ))

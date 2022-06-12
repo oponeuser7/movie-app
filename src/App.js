@@ -24,14 +24,14 @@ function App() {
 
   return (
     <div id="app">
-      <div id='movie' class="node">
+      <div id='movie' className="node">
         <Movie order={order} onClick={selectMovie}/>
         <button type="button" onClick={() => setOrder(!order)}>
           {order ? 'Release Date' : 'Book'} 
         </button>
       </div>
-      {movieSelected ? <div id='theater' class="node"><Theater onClick={selectTheater}/></div> : null}
-      {theaterSelected ? <div id='schedule' class="node"><Schedule currentTheater={currentTheater}/></div> : null}
+      {movieSelected ? <div id='theater' className="node"><Theater onClick={selectTheater}/></div> : null}
+      {theaterSelected ? <div id='schedule' className="node"><Schedule currentTheater={currentTheater}/></div> : null}
     </div>
   );
 }
