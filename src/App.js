@@ -5,11 +5,17 @@ import Theater from './Theater';
 
 function App() {
   const [order, setOrder] = useState(false);
-  const [selected, setSelected] = useState(false);
+  const [movieSelected, setMovieSelected] = useState(false);
+  const [theaterSelected, setTheaterSelected] = useState(false);
 
   const selectMovie = (e) => {
     window.localStorage.setItem("movie", e.target.previousSibling.innerHTML);
-    setSelected(true);
+    setMovieSelected(true);
+  };
+
+  const selectTheater = (e) => {
+    window.localStorage.setItem("theater", e.target.previousSibling.innerHTML);
+    setTheaterSelected(true);
   };
 
   return (
@@ -20,9 +26,7 @@ function App() {
           {order ? 'Release Date' : 'Book'} 
         </button>
       </div>
-      <div id='theater' class="node">
-        {selected ? <Theater/> : null}
-      </div>
+        {movieSelected ?<div id='theater' class="node"><Theater onClick={selectTheater}/></div> : null}
     </div>
   );
 }
