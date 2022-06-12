@@ -2,24 +2,24 @@ import './style.css';
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 
-const Movie = (props) => {
+const Theater = (props) => {
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
   const baseUrl = '//127.0.0.1:8080/movie/movie-server/';
 
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchTheaters = async () => {
       setList(null);
       setLoading(true);
-      const url = baseUrl + (props.order ? 'searchOrderB.jsp' : 'searchOrderR.jsp');
+      const url = baseUrl + 'getTheaters.jsp';
       const response = await axios.get(url);
       let temp = [];
       for(const key in response.data) temp.push(Object.values(response.data[key]));
       setList(temp);
       setLoading(false);
     }
-    fetchMovies();
-  }, [props.order]);
+    fetchTheaters();
+  }, []);
 
   if(loading) return <div>Loading...</div>;
   if(!list) return null;
@@ -28,23 +28,15 @@ const Movie = (props) => {
         <table>
           <thead>
             <tr>
-              <th>Info</th>
-              <th>Title</th>
-              <th>{props.order ? 'Book' : 'Release date'}</th>
+              <th>Theater</th>
             </tr>
           </thead>
           <tbody>
             {
               list.map((data, index) => (
               <tr key={index}>
-                <td>
-                  <a href={"http://127.0.0.1:8080/movie/movie-server/info.jsp?id="+data[0]} target="_blank">
-                    Info
-                  </a>
-                </td>
-                <td style={{display: "none"}}>{data[0]}</td>
-                <td class="button" onClick={props.onClick}>{data[1]}</td>
-                <td>{props.order ? data[7] : data[3]}</td>
+                <td style={{display:"none"}}>{data[0]}</td>
+                <td class="button">{data[1]}</td>
               </tr>
               ))
             }
@@ -54,4 +46,4 @@ const Movie = (props) => {
   );
 }
 
-export default Movie;
+export default Theater;

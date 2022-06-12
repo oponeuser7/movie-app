@@ -1,6 +1,7 @@
 import './style.css';
 import { useState } from 'react';
 import Movie from './Movie';
+import Theater from './Theater';
 
 function App() {
   const [order, setOrder] = useState(false);
@@ -13,11 +14,14 @@ function App() {
 
   return (
     <div id="app">
-      <div id="movie">
+      <div id='movie' class="node">
+        <Movie order={order} onClick={selectMovie}/>
         <button type="button" onClick={() => setOrder(!order)}>
           {order ? 'Release Date' : 'Book'} 
         </button>
-        <Movie order={order} onClick={selectMovie}/>
+      </div>
+      <div id='theater' class="node">
+        {selected ? <Theater/> : null}
       </div>
     </div>
   );
