@@ -23,16 +23,20 @@ function App() {
   };
 
   return (
-    <div id="app">
-      <div id='movie' className="node">
-        <Movie order={order} onClick={selectMovie}/>
-        <button type="button" onClick={() => setOrder(!order)}>
-          {order ? 'Release Date' : 'Book'} 
-        </button>
+    <>
+      <div className="container">
+        <div id='movie' className="node">
+          <Movie order={order} onClick={selectMovie}/>
+          <button type="button" onClick={() => setOrder(!order)}>
+            {order ? 'Release Date' : 'Book'} 
+          </button>
+        </div>
+        {movieSelected ? <div id='theater' className="node"><Theater onClick={selectTheater}/></div> : null}
+        {theaterSelected ? <div id='schedule' className="node"><Schedule currentTheater={currentTheater}/></div> : null}
       </div>
-      {movieSelected ? <div id='theater' className="node"><Theater onClick={selectTheater}/></div> : null}
-      {theaterSelected ? <div id='schedule' className="node"><Schedule currentTheater={currentTheater}/></div> : null}
-    </div>
+      <div className='container'>
+      </div>
+    </>
   );
 }
 
