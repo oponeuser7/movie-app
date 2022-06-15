@@ -5,6 +5,7 @@ import Movie from './Movie';
 import Theater from './Theater';
 import Schedule from './Schedule';
 import Signin from './Signin';
+import UserBlock from './UserBlock';
 
 function App() {
   const [order, setOrder] = useState(false);
@@ -57,7 +58,12 @@ function App() {
 
   return (
     <>
-      <Signin signedIn={signedIn} signInButtonClick={signInButtonClick} signOutButtonClick={signOutButtonClick}/>
+      <Signin 
+        signedIn={signedIn} 
+        signInButtonClick={signInButtonClick} 
+        signOutButtonClick={signOutButtonClick}
+      />
+      <h1 id='title'>CNU THEATER</h1>
       <div className="container">
         <div id='movie' className="node">
           <Movie order={order} onClick={selectMovie}/>
@@ -68,8 +74,7 @@ function App() {
         {movieSelected ? <div id='theater' className="node"><Theater onClick={selectTheater}/></div> : null}
         {theaterSelected ? <div id='schedule' className="node"><Schedule currentTheater={currentTheater}/></div> : null}
       </div>
-      <div className='container'>
-      </div>
+      {signedIn ? <UserBlock/> : null}
     </>
   );
 }

@@ -1,3 +1,9 @@
+#title {
+  position: absolute;
+  top: 30px;
+  left: 60px;
+}
+
 #movie {
   height: 560px;
   position: absolute;
