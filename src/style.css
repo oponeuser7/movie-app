@@ -12,6 +12,12 @@
   background-color: #FAFAFA; 
 }
 
+#upcoming {
+  position: absolute;
+  left: 350px;
+  top: 65px;
+}
+
 #theater {
   height: 560px;
   position: absolute;
@@ -30,8 +36,16 @@
   background-color: #E0E0E0;
 }
 
+#search-block {
+  top: 100px;
+} 
+
+#user-block {
+  top: 700px;
+}
+
 .container {
-  position: relative;
+  position: absolute;
   border: 1px solid black;
   top: 50px;
   left: 50px;

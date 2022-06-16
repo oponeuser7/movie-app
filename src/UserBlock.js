@@ -189,7 +189,7 @@ const UserBlock = props => {
   const [selected, setSelected] = useState('books');
 
   return (
-      <div className="container">
+      <div id='user-block' className="container">
         <h1>{selected==='books' ? 'Books' : (selected==='cancels' ? 'Cancels' : 'Watched')}</h1>
         {selected==='books' ? <Books/> : (selected==='cancels' ? <Cancels/> : <Watched/>)}
         <button onClick={() => setSelected('books')}>books</button>

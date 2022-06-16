@@ -2,6 +2,7 @@ import './style.css';
 import { useState, useEffect } from 'react';
 import { API } from './api';
 import Movie from './Movie';
+import Upcoming from './Upcoming';
 import Theater from './Theater';
 import Schedule from './Schedule';
 import Signin from './Signin';
@@ -13,6 +14,7 @@ function App() {
   const [theaterSelected, setTheaterSelected] = useState(false);
   const [currentTheater, setCurrentTheater] = useState('');
   const [signedIn, setSignedIn] = useState(false);
+  const [upcoming, setUpcoming] = useState(false);
 
   const selectMovie = (e) => {
     window.localStorage.setItem("movie", e.target.previousSibling.innerHTML);
@@ -63,10 +65,11 @@ function App() {
         signInButtonClick={signInButtonClick} 
         signOutButtonClick={signOutButtonClick}
       />
-      <h1 id='title'>CNU THEATER</h1>
-      <div className="container">
+      <h1 id='title'>{upcoming ? 'Upcoming Movies' : 'Now Playing'}</h1>
+      <button id='upcoming' type='button' onClick={() => setUpcoming(!upcoming)}>{upcoming ? 'now playing' : 'upcoming'}</button>
+      <div id='search-block' className="container">
         <div id='movie' className="node">
-          <Movie order={order} onClick={selectMovie}/>
+          {upcoming ? <Upcoming/> : <Movie order={order} onClick={selectMovie}/>}
           <button type="button" onClick={() => setOrder(!order)}>
             {order ? 'Release Date' : 'Book'} 
           </button>
