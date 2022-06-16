@@ -29,6 +29,8 @@ const Schedule = (props) => {
     const post = async () => {
       const sid = e.target.parentNode.nextSibling.innerHTML;
       const uid = window.localStorage.getItem('uid');
+      const type = e.target.parentNode.previousSibling.previousSibling.innerHTML;
+      const seatLeft = e.target.parentNode.previousSibling.innerHTML;
       if(!uid) {
         alert('Sign in first!');
         return;
@@ -36,14 +38,20 @@ const Schedule = (props) => {
       const adult = parseInt(prompt('Adults', '0'));
       const child = parseInt(prompt('Childs', '0'));
       const seats = adult+child;
-      const fee = (10000*adult)+(7000*child);
+      if(seats>seatLeft) {
+        alert('There are no seats more than '+seatLeft+'!');
+        return;
+      }
+      const adultFee = type==='premium' ? 15000 : 10000;
+      const childFee = type==='premium' ? 13000 : 8000;
+      const total = (adultFee*adult)+(childFee*child);
       const cash = parseInt(prompt('Cash', '0'));
       const points = parseInt(prompt('Points', '0'));
-      if(fee>cash+points) {
+      if(total>cash+points) {
         alert('Not enough pay!');
         return;
       }
-      const bonus = parseInt(fee*0.05);
+      const bonus = parseInt(total*0.05);
       const body = {
         sid: sid,
         uid: uid,
@@ -52,9 +60,7 @@ const Schedule = (props) => {
         points: points,
         bonus: bonus
       };
-      console.log(qs.stringify(body));
       const response = await APIQS.post('book.jsp', qs.stringify(body));
-      console.log(response.data);
       alert('Book Success!');
     };
     post();
@@ -70,6 +76,8 @@ const Schedule = (props) => {
             <tr>
               <th>Auditorium</th>
               <th>Starting Time</th>
+              <th>Type</th>
+              <th>Seats</th>
               <th>Book</th>
             </tr>
           </thead>
@@ -79,6 +87,8 @@ const Schedule = (props) => {
               <tr key={index}>
                 <td>{data[1]}</td>
                 <td className="button">{data[2]}</td>
+                <td>{data[3]}</td>
+                <td>{data[4]}</td>
                 <td><button type="button" onClick={book}>book</button></td>
                 <td style={{display:"none"}}>{data[0]}</td>
               </tr>

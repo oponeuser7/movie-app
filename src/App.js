@@ -70,9 +70,9 @@ function App() {
       <div id='search-block' className="container">
         <div id='movie' className="node">
           {upcoming ? <Upcoming/> : <Movie order={order} onClick={selectMovie}/>}
-          <button type="button" onClick={() => setOrder(!order)}>
+          {upcoming ? null : <button type="button" onClick={() => setOrder(!order)}>
             {order ? 'Release Date' : 'Book'} 
-          </button>
+          </button>}
         </div>
         {movieSelected ? <div id='theater' className="node"><Theater onClick={selectTheater}/></div> : null}
         {theaterSelected ? <div id='schedule' className="node"><Schedule currentTheater={currentTheater}/></div> : null}
