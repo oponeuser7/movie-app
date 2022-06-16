@@ -60,17 +60,34 @@ const Schedule = (props) => {
         points: points,
         bonus: bonus
       };
-      const response = await APIQS.post('book.jsp', qs.stringify(body));
+      await APIQS.post('book.jsp', qs.stringify(body));
+      updateSeats(sid, seats);
       alert('Book Success!');
+      window.location.reload();
     };
     post();
+  };
+
+  const updateSeats = async (sid, seats) => {
+    const response = await API.get('getSeats.jsp', {
+      params: {
+        sid: sid
+      }
+    });
+    const currentSeats = parseInt(response.data[0]?.seats);
+    const newSeats = currentSeats-seats;
+    const body = {
+      sid: sid,
+      seats: newSeats
+    };
+    const response2 = await APIQS.post('postSeats.jsp', qs.stringify(body));
   };
 
   if(loading) return <div>Loading...</div>;
   if(!list) return null;
   if(list && list.length===0) return <div>No Schedule Found...</div>;
   return (
-      <div>
+      <>
         <table>
           <thead>
             <tr>
@@ -96,7 +113,7 @@ const Schedule = (props) => {
             }
           </tbody>
         </table>
-      </div>
+      </>
   );
 }
 
