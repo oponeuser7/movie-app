@@ -5,6 +5,7 @@
 }
 
 #movie {
+  width: 360px;
   height: 560px;
   position: absolute;
   padding: 20px;
