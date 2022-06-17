@@ -58,6 +58,25 @@ const book = async (e) => {
   window.location.reload();
 };
 
+const cancel = async (e) => {
+  const uid = window.localStorage.getItem('uid');
+  const sid = e.target.parentNode.nextSibling.innerHTML;
+  const bid = e.target.parentNode.parentNode.firstChild.innerHTML;
+  const seats = parseInt(e.target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML);
+  const points = parseInt(parseInt(e.target.parentNode.previousSibling.innerHTML)*0.05)
+  console.log(uid);
+  console.log(sid);
+  console.log(bid);
+  console.log(seats);
+  console.log(points);
+  await APIQS.post('cancel.jsp', qs.stringify({bid: bid}));
+  updateSeats(sid, -seats);
+  updatePoints(uid, -points);
+  alert('Cancel Success!');
+  //window.location.reload();
+};
+
+
 const updateSeats = async (sid, seats) => {
   const response = await API.get('getSeats.jsp', {
     params: {
@@ -88,4 +107,4 @@ const updatePoints = async (uid, points) => {
   const response2 = await APIQS.post('postPoints.jsp', qs.stringify(body));
 };
 
-export { book, updateSeats, updatePoints };
+export { book, cancel, updateSeats, updatePoints };

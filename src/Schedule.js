@@ -1,7 +1,7 @@
 import './style.css';
 import { useState, useEffect } from 'react';
 import { API, objToList } from './api';
-import { book, updateSeats, updatePoints } from './bookLogic';
+import { book } from './bookLogic';
 
 const Schedule = (props) => {
   const [list, setList] = useState(null);

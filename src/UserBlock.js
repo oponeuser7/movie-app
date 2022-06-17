@@ -1,6 +1,7 @@
 import './style.css';
 import { useState, useEffect } from 'react';
 import { API, objToList } from './api';
+import { cancel } from './bookLogic';
 
 const Books = () => {
   const [list, setList] = useState(null);
@@ -39,6 +40,7 @@ const Books = () => {
               <th>Cash</th>
               <th>Point</th>
               <th>Total Fee</th>
+              <th>Cancel</th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +56,8 @@ const Books = () => {
                 <td>{data[6]}</td>
                 <td>{data[7]}</td>
                 <td>{data[8]}</td>
+                <td><button type='button' onClick={cancel}>cancel</button></td>
+                <td style={{display:'none'}}>{data[9]}</td>
               </tr>
               ))
             }
