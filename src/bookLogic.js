@@ -2,17 +2,32 @@ import { API, APIQS } from './api';
 import qs from 'qs';
 
 const book = async (e) => {
+  let response;
   const sid = e.target.parentNode.nextSibling.innerHTML;
+  const mid = window.localStorage.getItem('movie');
   const uid = window.localStorage.getItem('uid');
   const type = e.target.parentNode.previousSibling.previousSibling.innerHTML;
   const seatLeft = e.target.parentNode.previousSibling.innerHTML;
+  //Sign in check
   if(!uid) {
     alert('Sign in first!');
     return;
   }
+  response = await API.get('getRating.jsp', { params: {mid: mid } });
+  const rating = response.data[0]?.rating;
+  response = await API.get('getAge.jsp', { params: { uid: uid } });
+  const age = response.data[0]?.age;
+  //rating and age check
+  if(rating!=='all') {
+    if(parseInt(rating)-parseInt(age)>0) {
+      alert(`Age ${age} cannot watch ${rating} rating movie!`);
+      return;
+    }
+  }
   const adult = parseInt(prompt('Adults', '0'));
   const child = parseInt(prompt('Childs', '0'));
   const seats = adult+child;
+  //seats left check
   if(seats>seatLeft) {
     alert('There are no seats more than '+seatLeft+'!');
     return;
@@ -22,6 +37,7 @@ const book = async (e) => {
   const total = (adultFee*adult)+(childFee*child);
   const cash = parseInt(prompt('Cash', '0'));
   const points = parseInt(prompt('Points', '0'));
+  //cash fulfilled check
   if(total>cash+points) {
     alert('Not enough pay!');
     return;
