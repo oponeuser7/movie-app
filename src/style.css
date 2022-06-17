@@ -4,6 +4,11 @@
   left: 60px;
 }
 
+#user {
+  position: absolute;
+  left: 1100px;
+}
+
 #movie {
   width: 360px;
   height: 560px;

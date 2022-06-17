@@ -62,6 +62,7 @@ const Schedule = (props) => {
       };
       await APIQS.post('book.jsp', qs.stringify(body));
       updateSeats(sid, seats);
+      updatePoints(uid, bonus);
       alert('Book Success!');
       window.location.reload();
     };
@@ -81,6 +82,21 @@ const Schedule = (props) => {
       seats: newSeats
     };
     const response2 = await APIQS.post('postSeats.jsp', qs.stringify(body));
+  };
+
+  const updatePoints = async (uid, points) => {
+    const response = await API.get('getPoints.jsp', {
+      params: {
+        uid: uid
+      }
+    });
+    const currentPoints = parseInt(response.data[0]?.points);
+    const newPoints = currentPoints+points;
+    const body = {
+      uid: uid,
+      points: newPoints
+    };
+    const response2 = await APIQS.post('postPoints.jsp', qs.stringify(body));
   };
 
   if(loading) return <div>Loading...</div>;
