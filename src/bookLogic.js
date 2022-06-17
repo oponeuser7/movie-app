@@ -35,13 +35,23 @@ const book = async (e) => {
   const adultFee = type==='premium' ? 15000 : 10000;
   const childFee = type==='premium' ? 13000 : 8000;
   const total = (adultFee*adult)+(childFee*child);
-  const cash = parseInt(prompt('Cash', '0'));
-  const points = parseInt(prompt('Points', '0'));
+  let cash = parseInt(prompt('Cash', '0'));
+  let points = parseInt(prompt('Points', '0'));
   //cash fulfilled check
   if(total>cash+points) {
     alert('Not enough pay!');
     return;
   }
+  //point fulfilled check
+  response = await API.get('getPoints.jsp', { params: { uid: uid } });
+  const currentPoints = response.data[0]?.points;
+  if(points>currentPoints) {
+    alert('Not enough points you have!');
+    return;
+  }
+  //cash and points set to max total.
+  if(total<points) points = total;
+  cash = total-points;
   const bonus = parseInt(total*0.05);
   const body = {
     sid: sid,
@@ -64,16 +74,11 @@ const cancel = async (e) => {
   const bid = e.target.parentNode.parentNode.firstChild.innerHTML;
   const seats = parseInt(e.target.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerHTML);
   const points = parseInt(parseInt(e.target.parentNode.previousSibling.innerHTML)*0.05)
-  console.log(uid);
-  console.log(sid);
-  console.log(bid);
-  console.log(seats);
-  console.log(points);
   await APIQS.post('cancel.jsp', qs.stringify({bid: bid}));
   updateSeats(sid, -seats);
   updatePoints(uid, -points);
   alert('Cancel Success!');
-  //window.location.reload();
+  window.location.reload();
 };
 
 
