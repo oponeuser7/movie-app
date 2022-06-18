@@ -18,7 +18,7 @@ const book = async (e) => {
   response = await API.get('getAge.jsp', { params: { uid: uid } });
   const age = response.data[0]?.age;
   //rating and age check
-  if(rating!=='all') {
+  if(rating!=='All') {
     if(parseInt(rating)-parseInt(age)>0) {
       alert(`Age ${age} cannot watch ${rating} rating movie!`);
       return;
