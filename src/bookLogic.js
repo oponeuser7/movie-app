@@ -78,32 +78,32 @@ const cancel = async (e) => {
   await APIQS.post('cancel.jsp', qs.stringify({bid: bid})); //post cancel.jsp
   updateSeats(sid, -seats); //increase seat count for schedule
   updatePoints(uid, -points); //decrease points for member (retake?)
-  alert('Cancel Success!');
+  alert(`Cancel Success!\n${points} points are returned.\n${seats} seats are returned.`);
   window.location.reload(); //reload page
 };
 
 //This is a function to update schedule's seats left
 const updateSeats = async (sid, seats) => {
-  const response = await API.get('getSeats.jsp', { params: { sid: sid } }); //get current seats left
+  let response = await API.get('getSeats.jsp', { params: { sid: sid } }); //get current seats left
   const currentSeats = parseInt(response.data[0]?.seats);
   const newSeats = currentSeats-seats; //subtract booking seat count(add canceling seat count)
   const body = {
     sid: sid,
     seats: newSeats
   };
-  const response2 = await APIQS.post('postSeats.jsp', qs.stringify(body)); //postSeats.jsp
+  response = await APIQS.post('postSeats.jsp', qs.stringify(body)); //postSeats.jsp
 };
 
 //This is a function to update member's points
 const updatePoints = async (uid, points) => {
-  const response = await API.get('getPoints.jsp', { params: { uid: uid } }); //get current points
+  let response = await API.get('getPoints.jsp', { params: { uid: uid } }); //get current points
   const currentPoints = parseInt(response.data[0]?.points);
   const newPoints = currentPoints+points; //add bonus points for booking(subtract bonus points for canceling)
   const body = {
     uid: uid,
     points: newPoints
   };
-  const response2 = await APIQS.post('postPoints.jsp', qs.stringify(body)); //postPoints.jsp
+  response = await APIQS.post('postPoints.jsp', qs.stringify(body)); //postPoints.jsp
 };
 
 export { book, cancel, updateSeats, updatePoints };
