@@ -1,9 +1,9 @@
 import './style.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { API, objToList } from './api';
 import { cancel } from './bookLogic';
 
-const Books = () => {
+const Books = props => {
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,6 +15,8 @@ const Books = () => {
       const response = await API.get('getBooks.jsp', {
         params: {
           uid: uid,
+          from: props.from,
+          to: props.to,
         }
       });
       setList(objToList(response.data));
@@ -67,7 +69,7 @@ const Books = () => {
   );
 }
 
-const Cancels = () => {
+const Cancels = props => {
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -79,6 +81,8 @@ const Cancels = () => {
       const response = await API.get('getCancels.jsp', {
         params: {
           uid: uid,
+          from: props.from,
+          to: props.to,
         }
       });
       setList(objToList(response.data));
@@ -128,7 +132,7 @@ const Cancels = () => {
   );
 }
 
-const Watched = () => {
+const Watched = props => {
   const [list, setList] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -140,6 +144,8 @@ const Watched = () => {
       const response = await API.get('getWatched.jsp', {
         params: {
           uid: uid,
+          from: props.from,
+          to: props.to,
         }
       });
       setList(objToList(response.data));
@@ -191,11 +197,18 @@ const Watched = () => {
 
 const UserBlock = props => {
   const [selected, setSelected] = useState('books');
+  const from = useRef(null);
+  const to = useRef(null);
 
   return (
       <div id='user-block' className="container">
         <h1>{selected==='books' ? 'Books' : (selected==='cancels' ? 'Cancels' : 'Watched')}</h1>
-        {selected==='books' ? <Books/> : (selected==='cancels' ? <Cancels/> : <Watched/>)}
+        from <input ref={from} type='date' defaultValue='2022-01-01'/> 
+        to <input ref={to} type='date' defaultValue='2022-12-31'/>
+        <br/><br/>
+        {selected==='books' ? <Books from={from.current?.value??'2022-01-01'} to={to.current?.value??'2022-12-31'}/> : 
+        (selected==='cancels' ? <Cancels from={from.current?.value??'2022-01-01'} to={to.current?.value??'2022-12-31'}/> : 
+        <Watched from={from.current?.value??'2022-01-01'} to={to.current?.value??'2022-12-31'}/>)}
         <button onClick={() => setSelected('books')}>books</button>
         <button onClick={() => setSelected('cancels')}>cancels</button>
         <button onClick={() => setSelected('watched')}>watched</button>
